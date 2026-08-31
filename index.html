@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Apollo Private Gym</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --oro-apollo: #C5A059;
+            --oro-luce: rgba(197, 160, 89, 0.15);
+            --testo-chiaro: #F5F5F5;
+            --sfondo-scuro: #0A0A0A;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            color: var(--testo-chiaro);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            
+            /* SFONDO MARMO NERO E ORO */
+            background-color: var(--sfondo-scuro);
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(197, 160, 89, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(197, 160, 89, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 60%),
+                linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(5, 5, 5, 0.95) 100%);
+            background-attachment: fixed;
+        }
+
+        header {
+            text-align: center;
+            padding: 50px 20px 30px 20px;
+            width: 100%;
+            position: relative;
+        }
+        
+        .logo-img {
+            max-width: 280px;
+            width: 80%;
+            height: auto;
+            
+            filter: invert(1) drop-shadow(0 0 10px rgba(197, 160, 89, 0.4));
+            mix-blend-mode: screen; 
+            
+            opacity: 0; 
+            animation: fadeInLogo 2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes fadeInLogo {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(-10px);
+                filter: invert(1) blur(8px);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+                filter: invert(1) drop-shadow(0 0 10px rgba(197, 160, 89, 0.4)) blur(0);
+            }
+        }
+
+        main {
+            width: 90%;
+            max-width: 600px;
+            margin: 10px auto 40px auto;
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+            opacity: 0;
+            animation: fadeInMenu 1.5s ease-out 0.8s forwards;
+        }
+
+        @keyframes fadeInMenu {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sezione-card {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(197, 160, 89, 0.35);
+            border-radius: 12px;
+            padding: 28px 15px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sezione-card::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(197, 160, 89, 0.2), transparent);
+            transform: skewX(-20deg);
+            transition: 0.5s;
+        }
+
+        .sezione-card:hover::after, .sezione-card:active::after {
+            left: 150%;
+        }
+
+        .sezione-card:hover, .sezione-card:active {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(197, 160, 89, 0.25);
+            background: rgba(30, 30, 30, 0.8);
+            border-color: var(--oro-apollo);
+        }
+
+        .sezione-card h2 {
+            margin: 0;
+            font-size: 1.35rem;
+            font-weight: 600;
+            letter-spacing: 2.5px;
+            color: var(--oro-apollo);
+            text-transform: uppercase;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 5, 5, 0.95);
+            overflow: auto;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 95%;
+            max-width: 800px;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            border: 1px solid var(--oro-apollo);
+            border-radius: 4px;
+            box-shadow: 0 0 50px rgba(197, 160, 89, 0.15);
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: var(--oro-apollo);
+            font-size: 45px;
+            font-weight: 400;
+            transition: 0.3s;
+            cursor: pointer;
+            z-index: 1001;
+            line-height: 1;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #fff;
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        footer {
+            margin-top: auto;
+            padding: 30px;
+            font-size: 0.8rem;
+            color: rgba(197, 160, 89, 0.6);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInMenu 1.5s ease-out 1.2s forwards;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <img src="logo.png" alt="Apollo Private Gym Logo" class="logo-img">
+        </div>
+    </header>
+
+    <main>
+        <!-- 1. Apollo Experience -->
+        <div class="sezione-card" onclick="openModal('apollo_experience.PNG')">
+            <h2>Apollo Experience</h2>
+        </div>
+
+        <!-- 2. Membership Annuale -->
+        <div class="sezione-card" onclick="openModal('membership.PNG')">
+            <h2>Membership Annuale</h2>
+        </div>
+
+        <!-- 3. Apollo Women -->
+        <div class="sezione-card" onclick="openModal('apollo_women.PNG')">
+            <h2>Apollo Women</h2>
+        </div>
+
+        <!-- 4. Percorso Annuale -->
+        <div class="sezione-card" onclick="openModal('percorso_annuale.PNG')">
+            <h2>Percorso Annuale</h2>
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 APOLLO PRIVATE GYM
+    </footer>
+
+    <div id="imageModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgVisualizzata">
+    </div>
+
+    <script>
+        function openModal(imageSrc) {
+            var modal = document.getElementById("imageModal");
+            var modalImg = document.getElementById("imgVisualizzata");
+            
+            modal.style.display = "block";
+            modalImg.src = imageSrc;
+        }
+
+        function closeModal() {
+            var modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            var modal = document.getElementById("imageModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+
+</body>
+</html>
